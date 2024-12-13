@@ -3,20 +3,33 @@ from enemigos import Enemigos
 
 pygame.init()
 
-ventana = pygame.display.set_mode((600,600))
-
-game_over = False
+#Declaración de constantes
+ANCHO = 600
+LARGO = 600
+FPS = 60
+ventana = pygame.display.set_mode((ANCHO,LARGO))
+tiempo = pygame.time.Clock()
+jugando = True
 enemigo = Enemigos()
-while not game_over:
+
+#Lógica principal del juego
+while jugando:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-
+        if event.type == pygame.KEYDOWN: 
+            enemigo.aparecer_enemigos(event)    
+        if event.type == pygame.KEYUP:    
+            enemigo.aparecer_enemigos(event)
+       
+            
     #Dibujar
-   
+    #enemigo.aparecer_enemigos()
     enemigo.dibujar(ventana)
     
     
     #Actualizar la ventana
     pygame.display.update()
+    tiempo.tick(FPS)
+   
