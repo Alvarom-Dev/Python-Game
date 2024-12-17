@@ -7,6 +7,7 @@ pygame.init()
 ANCHO = 600
 LARGO = 600
 FPS = 60
+BLACK = (0,0,0)
 ventana = pygame.display.set_mode((ANCHO,LARGO))
 tiempo = pygame.time.Clock()
 jugando = True
@@ -18,18 +19,23 @@ while jugando:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
+    """            
         if event.type == pygame.KEYDOWN: 
-            enemigo.aparecer_enemigos(event)    
+            enemigo.key_down(event)    
         if event.type == pygame.KEYUP:    
-            enemigo.aparecer_enemigos(event)
-       
-            
+            enemigo.key_up(event)
+    """    
+    #Lógica de aparición y movilidad enemigos.
+    enemigo.crear_enemigos(ANCHO)   
+    enemigo.movilidad_enemigos(LARGO)
+    #Limpiamos la pantalla
+    ventana.fill(BLACK)        
     #Dibujar
-    #enemigo.aparecer_enemigos()
+    
     enemigo.dibujar(ventana)
     
     
     #Actualizar la ventana
-    pygame.display.update()
+    pygame.display.flip()
     tiempo.tick(FPS)
    

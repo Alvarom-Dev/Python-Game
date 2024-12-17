@@ -1,40 +1,57 @@
-import pygame
+import pygame, random
 
 
 class Enemigos:
-    ancho_ene = 50
-    largo_ene = 50 
-    list_pos_cord = [300,300]
-    cord_x = 0
-    cord_y = 0
-    color_rojo = (255,0,0)
-    velocidad_x = 3
- 
  
     def __init__(self):
-        pass
-
-    def dibujar(self,ventana):
-        #pygame.draw.rect(ventana,color_rojo,(list_pos_cord[0],list_pos_cord[1],ancho_ene,largo_ene))
-        pygame.draw.rect(ventana,self.color_rojo,(self.list_pos_cord[0],self.list_pos_cord[1],self.ancho_ene,self.largo_ene))
+        self.ancho_ene = 50
+        self.largo_ene = 50 
+        self.list_enemigos = []
+        self.cord_x = 0
+        self.cord_y = 0
+        self.color_morado = (122,54,144)
+        self.velocidad_y = 3
+        self.enemigo_cubo = pygame.Rect(self.cord_x,self.cord_y,self.ancho_ene,self.largo_ene)
         
-    def aparecer_enemigos(self):
-        eventos = pygame.event.get()
-        for evento in eventos:
-            if evento.type == pygame.KEYDOWN: 
-                if evento.key == pygame.K_LEFT:
-                    #self.velocidad_x -= self.velocidad_x
-                    self.list_pos_cord[0] -= self.velocidad_x
-                if evento.key == pygame.K_RIGHT:
-                    #self.velocidad_x += self.velocidad_x  
-                    self.list_pos_cord[0] += self.velocidad_x   
-            if evento.type == pygame.KEYUP:
-                if evento.key == pygame.K_LEFT:
-                     #self.velocidad_x = 0
-                     self.list_pos_cord[0] = 0
-                if evento.key == pygame.K_RIGHT:
-                     #self.velocidad_x = 0
-                     self.list_pos_cord[0] = 0
-                #self.list_pos_cord[0] += self.velocidad_x
-                print(self.list_pos_cord[0])         
- 
+    def crear_enemigos(self,ancho_ventana):
+        self.cord_x = random.randint(0, (ancho_ventana - self.ancho_ene))
+        self.enemigo_cubo.x = self.cord_x
+        self.list_enemigos.append(self.enemigo_cubo)
+             
+    
+    def dibujar(self,ventana):
+        for enemigo in self.list_enemigos:
+
+            pygame.draw.rect(ventana,self.color_morado,enemigo)
+            print(enemigo)
+        #pygame.draw.rect(ventana,self.color_rojo,(self.list_pos_cord[0],self.list_pos_cord[1],self.ancho_ene,self.largo_ene))
+
+    def movilidad_enemigos(self,largo_ventana):
+        for enemigo in self.list_enemigos:
+            if self.cord_y >= 0 and self.cord_y <= largo_ventana:
+
+                 enemigo.y += self.velocidad_y 
+                 self.cord_y += self.velocidad_y
+                 self.velocidad_y += self.velocidad_y 
+                 print("Pasa por movilidad")
+            else:
+                print("No pasa por el if")
+        
+
+
+"""  
+    def key_down(self,evento):
+                    
+        if evento.key == pygame.K_LEFT:    
+            self.list_pos_cord[0] -= self.velocidad_x
+        if evento.key == pygame.K_RIGHT:   
+             self.list_pos_cord[0] += self.velocidad_x  
+
+    def key_up (self,evento):
+        if evento.key == pygame.K_LEFT:
+            self.list_pos_cord[0] = self.list_pos_cord[0]
+        if evento.key == pygame.K_RIGHT:
+            self.list_pos_cord[0] = self.list_pos_cord[0]
+    """
+           
+                
