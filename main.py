@@ -6,7 +6,7 @@ pygame.init()
 #Declaración de constantes
 ANCHO = 600
 LARGO = 600
-FPS = 60
+FPS = 5
 BLACK = (0,0,0)
 ventana = pygame.display.set_mode((ANCHO,LARGO))
 tiempo = pygame.time.Clock()
@@ -26,8 +26,12 @@ while jugando:
             enemigo.key_up(event)
     """    
     #Lógica de aparición y movilidad enemigos.
-    enemigo.crear_enemigos(ANCHO)   
-    enemigo.movilidad_enemigos(LARGO)
+    
+    #enemigo.crear_enemigos(ANCHO)
+    enemigo.crear_enemigos(ANCHO)
+    #enemigo.movilidad_enemigos(LARGO)
+    
+    #enemigo.movilidad_enemigos(LARGO)
     #Limpiamos la pantalla
     ventana.fill(BLACK)        
     #Dibujar
