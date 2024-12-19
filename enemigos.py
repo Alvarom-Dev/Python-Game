@@ -10,7 +10,7 @@ class Enemigos:
         self.cord_x = 0
         self.cord_y = 0
         self.color_morado = (166,70,190)
-        self.velocidad_y = 10
+        self.velocidad_y = 1
        
         
     def crear_enemigos(self,ancho_ventana):
@@ -18,7 +18,7 @@ class Enemigos:
         self.cord_x = random.randint(0, (ancho_ventana - self.ancho_ene))
         enemigo_nuevo.x = self.cord_x
         self.list_enemigos.append(enemigo_nuevo)
-        print(self.list_enemigos)
+        
              
    
     def dibujar(self,ventana):
