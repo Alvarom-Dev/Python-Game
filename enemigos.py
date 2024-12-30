@@ -10,7 +10,7 @@ class Enemigos:
         self.cord_x = 0
         self.cord_y = -50
         self.color_morado = (166,70,190)
-        self.velocidad_y = 10
+        self.velocidad_y = 3
        
         
     def crear_enemigos(self,ancho_ventana):

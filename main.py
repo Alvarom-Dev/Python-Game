@@ -7,7 +7,7 @@ pygame.init()
 #Declaración de constantes
 ANCHO = 600
 LARGO = 600
-FPS = 5
+FPS = 60
 BLACK = (0,0,0)
 ventana = pygame.display.set_mode((ANCHO,LARGO))
 tiempo = pygame.time.Clock()
@@ -22,12 +22,13 @@ while jugando:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-    """            
+               
         if event.type == pygame.KEYDOWN: 
-            enemigo.key_down(event)    
+            matador.mov_matador(event) 
+              
         if event.type == pygame.KEYUP:    
-            enemigo.key_up(event)
-    """    
+            #matador.mov_matador_der
+             pass
     #Lógica de aparición y movilidad enemigos.
     
     contador = pygame.time.get_ticks()
