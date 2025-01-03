@@ -24,11 +24,15 @@ while jugando:
             sys.exit()
                
         if event.type == pygame.KEYDOWN: 
-            matador.mov_matador(event) 
-              
+            #matador.mov_matador(event) 
+            pass
+            
         if event.type == pygame.KEYUP:    
-            #matador.mov_matador_der
-             pass
+            pass
+    #Movilidad del matador
+    
+    matador.mov_matador(ANCHO)    
+            
     #Lógica de aparición y movilidad enemigos.
     
     contador = pygame.time.get_ticks()
