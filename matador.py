@@ -20,8 +20,9 @@ class Matador:
                 self.cord_x -= self.speed_x
             if pygame.key.get_pressed()[pygame.K_RIGHT]:
                 self.cord_x += self.speed_x
+        
         else:
-            pass        
+            print("prueba")            
          
     
 
