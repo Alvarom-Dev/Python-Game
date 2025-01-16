@@ -15,12 +15,14 @@ class Matador:
         pygame.draw.rect(ventana,self.color_rojo,matador)   
 
     def mov_matador(self,ventana_ancho):
-        while self.cord_x >= ventana_ancho and self.cord_x <= ventana_ancho - self.ANCHO:
+        if self.cord_x >= self.ANCHO and self.cord_x <= ventana_ancho - self.ANCHO:
             if pygame.key.get_pressed()[pygame.K_LEFT]:
                 self.cord_x -= self.speed_x
             if pygame.key.get_pressed()[pygame.K_RIGHT]:
                 self.cord_x += self.speed_x
-            print("pasa por aqui")    
+        else:
+            pass        
+         
     
 
     
