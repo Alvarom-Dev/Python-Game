@@ -1,5 +1,6 @@
 import pygame, sys
 from enemigos import Enemigos 
+from matador import Matador
 
 pygame.init()
 
@@ -12,6 +13,7 @@ ventana = pygame.display.set_mode((ANCHO,LARGO))
 tiempo = pygame.time.Clock()
 jugando = True
 enemigo = Enemigos()
+matador = Matador()
 segundos = 0
 
 #Lógica principal del juego
@@ -20,12 +22,16 @@ while jugando:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-    """            
+               
         if event.type == pygame.KEYDOWN: 
-            enemigo.key_down(event)    
+            pass   
         if event.type == pygame.KEYUP:    
-            enemigo.key_up(event)
-    """    
+            pass
+
+    #Movimiento del matador   
+
+    matador.mov_matador(ANCHO)
+
     #Lógica de aparición y movilidad enemigos.
     contador= pygame.time.get_ticks()
     
@@ -35,11 +41,11 @@ while jugando:
 
     #Limpiamos la pantalla
     ventana.fill(BLACK)      
-    print(contador)
+    
     #Dibujar
     
     enemigo.dibujar(ventana)
-    
+    matador.dibujar_matador(ventana)
     
     #Actualizar la ventana
 
