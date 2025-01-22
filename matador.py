@@ -8,7 +8,7 @@ class Matador:
         self.cord_x = 300
         self.cord_y = 500
         self.color_rojo = (255,0,0)
-        self.speed_x = 10
+        self.speed_x = 5
 
     def dibujar_matador(self,ventana):
         matador = pygame.Rect(self.cord_x,self.cord_y,self.ANCHO,self.ALTO) 
