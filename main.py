@@ -3,30 +3,37 @@ from enemigos import Enemigos
 from matador import Matador
 
 pygame.init()
+pygame.display.set_caption("Juego Naves")
 
 #Declaración de constantes
 ANCHO = 600
 LARGO = 600
 FPS = 60
 BLACK = (0,0,0)
-FONT = pygame.font.Font(None,20)
-ventana = pygame.display.set_mode((ANCHO,LARGO))
-texto_vida = FONT.render("VIDAS: ",0,(200,200,200))
-texto_enemigos = FONT.render("ENEMIGOS ELIMINADOS",0,(200,200,200))
+BLANCO =(255,255,255)
+ROJO = (255,0,0)
+FONT = pygame.font.SysFont("Calibri",20)
+font_gameover = pygame.font.Font(None,80)
+ventana_juego = pygame.display.set_mode((ANCHO,LARGO))
+ventana_gameover = pygame.display.set_mode((ANCHO,LARGO))
 vidas = 3
 tiempo = pygame.time.Clock()
 jugando = True
 enemigo = Enemigos()
 matador = Matador()
 segundos = 0
-indice_anterior = 0
+controlador_segundos = 2000
+contador_eliminaciones = 0
+
 #Lógica principal del juego
 while jugando:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-               
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                matador.crear_balas()    
 
     #Movimiento del matador   
 
@@ -36,44 +43,64 @@ while jugando:
 
     contador= pygame.time.get_ticks()
     
-    if contador < 90:
-        enemigo.crear_enemigos(ANCHO)
-    
-    if contador - segundos >= 3000:
+    if contador - segundos >= controlador_segundos:
         enemigo.crear_enemigos(ANCHO)
         segundos = contador
-
-   
+    
+    if contador_eliminaciones > 5:
+        enemigo.velocidad_y= 3
+        controlador_segundos = 1000
+    
+    if contador_eliminaciones > 10:
+        controlador_segundos = 800
 
     #Limpiamos la pantalla
-    ventana.fill(BLACK)      
-    
-    #Dibujar
-    ventana.blit(texto_vida,(1,1))
-    ventana.blit(texto_enemigos,(1,20))
-    enemigo.dibujar(ventana)
-    matador.dibujar_matador(ventana)
 
-    #Colision 
+    ventana_juego.fill(BLACK)      
     
-    #if enemigo.list_enemigos[-1].y + enemigo.largo_ene > matador.cord_y and enemigo.list_enemigos[-1].y < matador.cord_y + matador.ANCHO and enemigo.list_enemigos[-1].x + enemigo.ancho_ene > matador.cord_x and enemigo.list_enemigos[-1].x < matador.cord_x + matador.ANCHO:
+    #Renderizado de textos
+    text_vida = f"Vidas: {vidas}"
+    texto_vida = FONT.render(text_vida,True,BLANCO)
+    text_enemigo = f"Kills enemigos: {contador_eliminaciones}"
+    texto_enemigos = FONT.render(text_enemigo,True,BLANCO)
+
+    #Dibujar
+    ventana_juego.blit(texto_vida,(1,10))
+    ventana_juego.blit(texto_enemigos,(1,30))
+    enemigo.dibujar_enemigos(ventana_juego)
+    matador.dibujar_matador(ventana_juego)
+    matador.dibujar_balas(ventana_juego)
+
+    #Colision y gestion de vidas
     
-    for colision in enemigo.list_enemigos:
-        if colision.y + enemigo.largo_ene > matador.cord_y and colision.y < matador.cord_y + matador.ALTO and colision.x + enemigo.ancho_ene > matador.cord_x and colision.x < matador.cord_x + matador.ANCHO:
-            print("Colisiona")
-            sys.exit()
+    for enemy in enemigo.list_enemigos:
+        if enemy.y + enemigo.largo_ene > matador.cord_y and enemy.y < matador.cord_y + matador.ALTO and enemy.x + enemigo.ancho_ene > matador.cord_x and enemy.x < matador.cord_x + matador.ANCHO:
+            pygame.time.delay(500)
+            enemy.y = 600
+            vidas -= 1
+        elif enemy.y + enemigo.largo_ene > ANCHO and enemy.y + enemigo.largo_ene < ANCHO + 3:
+            vidas -=1     
+        
+        elif vidas <= 0:
+            ventana_juego.fill(BLACK)
+            texto_game_over = font_gameover.render("GAME OVER",0,ROJO)
+            ventana_juego.blit(texto_game_over,(150,300))
+ 
         else:
-            print("No colisiona")    
-    '''
-    if len(enemigo.list_enemigos) > indice_anterior:
-        print(enemigo.list_enemigos[-1])
+            pass
+            
+       
+    #Eliminacion enemigos
     
-    '''
-    
-    
+    for bala in matador.lista_balas:
+        for meteorito in enemigo.list_enemigos:
+            if bala.y + matador.largo_bala > meteorito.y and bala.y < meteorito.y + enemigo.largo_ene and bala.x + matador.ancho_bala > meteorito.x and bala.x < meteorito.x + enemigo.ancho_ene:
+                enemigo.list_enemigos.remove(meteorito)
+                matador.lista_balas.remove(bala)
+                contador_eliminaciones += 1
+     
     #Actualizar la ventana
 
     pygame.display.flip()
     tiempo.tick(FPS)
     
-   
